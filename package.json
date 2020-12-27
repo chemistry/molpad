@@ -30,7 +30,8 @@
         "serve": "webpack-dev-server --config ./webpack.config.js",
         "start": "npm run serve",
         "lint": "tslint -c tslint.json -p tsconfig.json 'src/**/*.ts{,x}'",
-        "lintfix": "tslint -c tslint.json -p tsconfig.json 'src/**/*.ts{,x}' --fix"
+        "lintfix": "tslint -c tslint.json -p tsconfig.json 'src/**/*.ts{,x}' --fix",
+        "build": "webpack-cli --config ./webpack.build.base.js --mode production"
     },
     "dependencies": {
         "@types/react": "17.0.0",

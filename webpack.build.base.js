@@ -1,7 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 
 module.exports = {
 
@@ -10,21 +8,19 @@ module.exports = {
     devtool:  'source-map',
 
     entry: {
-        'main': path.resolve(__dirname, './example/app.tsx')
+        'main': path.resolve(__dirname, './src/molpad.tsx')
     },
 
     output: {
-        path: __dirname + '/dist/static/',
-        publicPath: '/',
-        filename: '[name].[hash].js'
+        path: path.resolve(__dirname, '../dist'),
+        filename: "[name].js",
+        libraryTarget: 'umd',
+        library: 'molpad',
+        umdNamedDefine: true
     },
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
-        }),
-        new HtmlWebpackPlugin({
-            template: __dirname + '/example/index.html',
-            favicon: __dirname + '/example/favicon.ico',
         }),
     ],
     module: {
@@ -58,6 +54,6 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.less', '.svg']
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.svg']
     }
 }
