@@ -1,2 +1,2 @@
-# molpad
+# Molpad
 Simple Molecule Editor
