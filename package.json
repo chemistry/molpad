@@ -29,6 +29,8 @@
     "scripts": {
         "serve": "webpack-dev-server --config ./webpack.config.js",
         "start": "npm run serve",
+        "test": "jest",
+        "tdd": "jest --watch",
         "lint": "tslint -c tslint.json -p tsconfig.json 'src/**/*.ts{,x}'",
         "lintfix": "tslint -c tslint.json -p tsconfig.json 'src/**/*.ts{,x}' --fix",
         "build": "webpack-cli --config ./webpack.build.base.js --mode production"
@@ -42,11 +44,14 @@
         "react-dom": "17.0.1"
     },
     "devDependencies": {
+        "@types/jest": "26.0.19",
         "awesome-typescript-loader": "5.2.1",
         "css-loader": "3.6.0",
         "file-loader": "6.0.0",
         "html-webpack-plugin": "3.2.0",
+        "jest": "24.9.0",
         "mini-css-extract-plugin": "0.9.0",
+        "ts-jest": "24.3.0",
         "tslint": "5.20.1",
         "typescript": "3.7.4",
         "webpack": "4.43.0",
