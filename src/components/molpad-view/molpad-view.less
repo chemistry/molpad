@@ -1,0 +1,43 @@
+@toolbar-wigth: 46px;
+
+.molpad-view {
+    user-select: none;
+    cursor: default;
+    position: relative;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #cccccc;
+
+    &__top-toolbar {
+        position: absolute;
+        top: 0;
+        left: @toolbar-wigth;
+        right: 0;
+        height: @toolbar-wigth;
+    }
+    &__left-toolbar {
+        position: absolute;
+        top: @toolbar-wigth;
+        bottom: 0;
+        left: 0;
+        width: @toolbar-wigth;
+    }
+    &__right-toolbar {
+        position: absolute;
+        top: @toolbar-wigth;
+        bottom: 0;
+        right: 0;
+        width: @toolbar-wigth;
+    }
+    &__content {
+        position: absolute;
+        top: @toolbar-wigth;
+        left: @toolbar-wigth;
+        bottom: 0;
+        right: @toolbar-wigth;
+        border: 1px solid #dedede;
+        border-bottom: none;
+    }
+}

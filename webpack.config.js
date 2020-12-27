@@ -1,63 +1,28 @@
 const path = require('path');
 const webpack = require('webpack');
+const baseConfig = require('./webpack.config.base.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+console.log(path.resolve(__dirname, 'example/app.tsx'));
 
-module.exports = {
-
-    mode: process.env.WEBPACK_DEV_SERVER ? 'development' : 'production',
-
-    devtool:  'source-map',
+module.exports = Object.assign({}, baseConfig, {
 
     entry: {
-        'main': path.resolve(__dirname, './example/app.tsx')
+        'molpad': path.resolve(__dirname, 'example/app.tsx')
     },
 
-    output: {
-        path: __dirname + '/dist/static/',
-        publicPath: '/',
-        filename: '[name].[hash].js'
-    },
+    externals: [{
+    }],
+
+    devtool: 'source-map',
+
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production'),
+            'process.env.NODE_ENV': JSON.stringify('development'),
         }),
         new HtmlWebpackPlugin({
-            template: __dirname + '/example/index.html',
-            favicon: __dirname + '/example/favicon.ico',
-        }),
-    ],
-    module: {
-        rules: [
-            { test: /\.(woff|woff2|ttf|eot)/, loader: ['url-loader?limit=1'] },
-            { test: /\.png$/, loader: 'url-loader?limit=10000&mimetype=image/png' },
-            {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    // Creates `style` nodes from JS strings
-                    // 'style-loader',
-                    // Translates CSS into CommonJS
-                    'css-loader',
-                    // Compiles Sass to CSS
-                    'sass-loader',
-                ],
-            },
-            {
-                test: /\.css$/i,
-                use: [
-                    // 'style-loader',
-                    'css-loader'
-                ],
-            },
-            {
-                test: /\.(ts|tsx)$/,
-                exclude: /node_modules/,
-                loader: 'awesome-typescript-loader'
-            }
-        ]
-    },
-
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.less', '.svg']
-    }
-}
+            template: path.resolve(__dirname, 'example/index.html'),
+            favicon: path.resolve(__dirname, 'example/favicon.ico')
+        })
+    ]
+});

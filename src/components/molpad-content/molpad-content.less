@@ -1,0 +1,56 @@
+.molpad-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.molsvg {
+    text {
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: normal;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+}
+
+.molsvg-atom {
+    cursor: pointer;
+      &__wrap {
+          fill-opacity:0;
+      }
+}
+
+.molsvg-overlap {
+    fill: none;
+    stroke: #700;
+}
+
+.molsvg-atom-hover {
+    &__wrap {
+        fill-opacity:0;
+        transition: fill-opacity 0.2s;
+    }
+    &--hover &__wrap {
+        fill-opacity:0.7;
+    }
+}
+
+.molsvg-bond {
+    cursor: pointer;
+    &__wrap {
+       stroke-opacity:0;
+       transition: stroke-opacity 0.2s;
+    }
+}
+
+.molsvg-bond-hover {
+    &__wrap {
+       stroke-opacity:0;
+       transition: stroke-opacity 0.2s;
+    }
+    &--hover &__wrap {
+        stroke-opacity: 0.7;
+    }
+}
