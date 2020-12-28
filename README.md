@@ -4,7 +4,7 @@
 
 
 Simple Molecule Editor
-
+![MolPad](https://github.com/chemistry/molpad/blob/master/molpad.png?raw=true)
 ## Technical description (all libraries):
   * Typescript 3.7
   * Auto tests with JEST

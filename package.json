@@ -27,7 +27,7 @@
         "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
-        "serve": "webpack-dev-server --config ./webpack.config.js",
+        "serve": "webpack-serve --config ./webpack.config.js",
         "start": "npm run serve",
         "test": "jest",
         "tdd": "jest --watch",
