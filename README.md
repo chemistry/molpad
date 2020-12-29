@@ -16,6 +16,12 @@ Simple Molecule Editor
   * Run linter verification & fix: `npm run lintfix`
   * Build project: `npm run build`
 
+## Release
+```bash
+git tag v2.3.0
+git push --tags
+```
+
 ## License
   This project is licensed under the MIT license, Copyright (c) 2020 Volodymyr Vreshch.
   For more information see [LICENSE.md](https://github.com/chemistry/crystalview/blob/master/LICENSE).

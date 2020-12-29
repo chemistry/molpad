@@ -1,13 +1,14 @@
 {
     "name": "@chemistry/molpad",
-    "version": "2.3.0",
-    "description": "Crystallography API",
+    "version": "2.3.7",
+    "description": "Molecule Editor",
     "author": {
         "name": "Volodymyr Vreshch",
         "url": "http://vreshch.com/"
     },
     "license": "MIT",
-    "private": true,
+    "main": "dist/molpad.js",
+    "private": false,
     "keywords": [
         "cheminformatics",
         "molecular editor",

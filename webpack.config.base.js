@@ -11,7 +11,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, 'dist'),
         filename: "[name].js",
         libraryTarget: 'umd',
         library: 'molpad',
