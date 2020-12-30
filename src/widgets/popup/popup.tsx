@@ -1,8 +1,4 @@
 import * as React from "react";
-import {
-   hidePeriodicTableAction,
-} from "../../actions";
-
 export interface PopupProps {
     isOpen: boolean;
     title: string;

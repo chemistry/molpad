@@ -24,54 +24,57 @@ import {
    GenericToolBar,
 } from "../generic-toolbar";
 
+import "./icons/icons.less";
+
 export const TOOLBAR_TOP_CONFIG = [{
-      id: "NEW",
-      title: "New",
-      icon: "fa-file-o",
-      isDisabled: (state: StoreState) => {
-          const atoms = state.data.molecule.atoms;
-          const bonds = state.data.molecule.bonds;
-          return Object.keys(atoms).length === 0 && Object.keys(bonds).length === 0;
-      },
-  }, {
-      id: "UNDO",
-      title: "Undo",
-      icon: "fa-undo",
-      isDisabled: (state: StoreState) => {
-          return state.pastData.length === 0;
-      },
-  }, {
-      id: "REDO",
-      title: "Redo",
-      icon: "fa-repeat",
-      isDisabled: (state: StoreState) => {
-          return state.futureData.length === 0;
-      },
-  }, {
-      id: "ZOOM_OUT",
-      title: "Zoom Out",
-      icon: "fa-search-minus",
-      isDisabled: (state: StoreState) => {
-          return !CameraHelperService.canZoomOut(state.data.camera);
-      },
-  }, {
-      id: "ZOOM_IN",
-      title: "Zoom In",
-      icon: "fa-search-plus",
-      isDisabled: (state: StoreState) => {
-          return !CameraHelperService.canZoomIn(state.data.camera);
-      },
-}, {
-    id: "CLEAR",
-    title: "Clear",
-    icon: "fa-eraser",
-    mode: ToolMode.clear,
-    type: "#",
+    id: "NEW",
+    title: "New",
+    iconClassName: "c-toolbar-item--new-file",
     isDisabled: (state: StoreState) => {
-        const atoms = state.data.molecule.atoms;
-        const bonds = state.data.molecule.bonds;
-        return Object.keys(atoms).length === 0 && Object.keys(bonds).length === 0;
+            const atoms = state.data.molecule.atoms;
+            const bonds = state.data.molecule.bonds;
+            return Object.keys(atoms).length === 0 && Object.keys(bonds).length === 0;
+        },
     },
+    {
+        id: "UNDO",
+        title: "Undo",
+        iconClassName: "c-toolbar-item--undo",
+        isDisabled: (state: StoreState) => {
+            return state.pastData.length === 0;
+        },
+    }, {
+        id: "REDO",
+        title: "Redo",
+        iconClassName: "c-toolbar-item--redo",
+        isDisabled: (state: StoreState) => {
+            return state.futureData.length === 0;
+        },
+    }, {
+        id: "ZOOM_OUT",
+        title: "Zoom Out",
+        iconClassName: "c-toolbar-item--zoom-out",
+        isDisabled: (state: StoreState) => {
+            return !CameraHelperService.canZoomOut(state.data.camera);
+        },
+    }, {
+        id: "ZOOM_IN",
+        title: "Zoom In",
+        iconClassName: "c-toolbar-item--zoom-in",
+        isDisabled: (state: StoreState) => {
+            return !CameraHelperService.canZoomIn(state.data.camera);
+        },
+    }, {
+        id: "CLEAR",
+        title: "Clear",
+        iconClassName: "c-toolbar-item--clear",
+        mode: ToolMode.clear,
+        type: "#",
+        isDisabled: (state: StoreState) => {
+            const atoms = state.data.molecule.atoms;
+            const bonds = state.data.molecule.bonds;
+            return Object.keys(atoms).length === 0 && Object.keys(bonds).length === 0;
+        },
 }];
 
 export const TopToolBarComponent = (props: {

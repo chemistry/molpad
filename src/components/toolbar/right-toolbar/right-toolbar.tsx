@@ -18,6 +18,8 @@ import {
    GenericToolBar,
 } from "../generic-toolbar";
 
+import "./icons/icons.less";
+
 const DEFAULT_ELEMENTS = ["C", "N", "O", "S", "P"];
 
 function getToolBarConfig(additionalElements: string[]): any {
@@ -37,7 +39,7 @@ function getToolBarConfig(additionalElements: string[]): any {
     res.push({
         id: "TABLE",
         title: "Table",
-        icon: "fa-table ",
+        iconClassName: "c-toolbar-item--table",
     });
     return res;
 }
@@ -50,11 +52,11 @@ const RightToolBarComponent = ({
     additionalElements?: string[],
 }) => {
 
-    return (<GenericToolBar
+    return (<div><GenericToolBar
         data={getToolBarConfig(additionalElements || [])}
         orientation={ToolBarOrientation.right}
         onItemClicked={handleActions}
-    />);
+    /></div>);
 };
 
 const mapDispatchToProps: any = (dispatch: Dispatch<any>) => {

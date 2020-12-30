@@ -5,6 +5,20 @@
 
 Simple Molecule Editor
 ![MolPad](https://github.com/chemistry/molpad/blob/master/molpad.png?raw=true)
+
+
+## How to use
+```javascript
+import { MolPad } from '../src/molpad';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+
+ReactDOM.render(
+    (<MolPad />),
+    document.getElementById('app') as HTMLElement
+);
+```
+
 ## Technical description (all libraries):
   * Typescript 3.7
   * Auto tests with JEST
