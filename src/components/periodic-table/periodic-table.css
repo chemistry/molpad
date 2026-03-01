@@ -1,0 +1,18 @@
+.c-periodic-table td {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.c-periodic-table__element {
+  cursor: pointer;
+}
+
+.c-periodic-table__element:focus,
+.c-periodic-table__element:hover,
+.c-periodic-table__element:active {
+  background-color: #f5f5f5;
+}

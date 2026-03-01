@@ -1,1 +1,1 @@
-export * from "./generic-toolbar";
+export * from './generic-toolbar.js';

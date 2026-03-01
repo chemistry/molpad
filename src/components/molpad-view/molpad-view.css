@@ -1,0 +1,43 @@
+.molpad-view {
+  user-select: none;
+  cursor: default;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #cccccc;
+}
+
+.molpad-view__top-toolbar {
+  position: absolute;
+  top: 0;
+  left: 46px;
+  right: 0;
+  height: 46px;
+}
+
+.molpad-view__left-toolbar {
+  position: absolute;
+  top: 46px;
+  bottom: 0;
+  left: 0;
+  width: 46px;
+}
+
+.molpad-view__right-toolbar {
+  position: absolute;
+  top: 46px;
+  bottom: 0;
+  right: 0;
+  width: 46px;
+}
+
+.molpad-view__content {
+  position: absolute;
+  top: 46px;
+  left: 46px;
+  bottom: 0;
+  right: 46px;
+  border: 1px solid #dedede;
+  border-bottom: none;
+}

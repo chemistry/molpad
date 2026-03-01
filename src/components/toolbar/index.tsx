@@ -1,3 +1,3 @@
-export * from "./left-toolbar";
-export * from "./right-toolbar";
-export * from "./top-toolbar";
+export * from './left-toolbar/index.js';
+export * from './right-toolbar/index.js';
+export * from './top-toolbar/index.js';

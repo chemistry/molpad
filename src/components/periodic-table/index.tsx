@@ -1,1 +1,1 @@
-export * from "./periodic-table";
+export * from './periodic-table.js';
