@@ -1,72 +1,78 @@
-import { settingsReducer } from "./index";
+import { settingsReducer } from './index.js';
 
-import {
-   hidePeriodicTableAction,
-} from "../../actions";
+import { hidePeriodicTableAction } from '../../actions/index.js';
 
-describe("settingsReducer", () => {
-    const sut = settingsReducer;
-    let actualState;
-    let mockAction;
-    let mockState: any;
+describe('settingsReducer', () => {
+  const sut = settingsReducer;
+  let actualState;
+  let mockAction;
+  let mockState: any;
 
-    it("should be defined", () => {
-        expect(settingsReducer).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(settingsReducer).toBeDefined();
+  });
 
-    it("should return initiall state for unknown action", () => {
-        mockState = { mock: "MOCK-STATE" } as any;
-        mockAction = { type: "UNKNOWN-ACTION" } as any;
-        actualState = settingsReducer(mockState, mockAction);
+  it('should return initiall state for unknown action', () => {
+    mockState = { mock: 'MOCK-STATE' } as any;
+    mockAction = { type: 'UNKNOWN-ACTION' } as any;
+    actualState = settingsReducer(mockState, mockAction);
 
-        expect(actualState).toEqual(mockState);
-    });
+    expect(actualState).toEqual(mockState);
+  });
 
-    it("should return initiall when payload is empty", () => {
-        mockState = { mock: "MOCK-STATE" } as any;
+  it('should return initiall when payload is empty', () => {
+    mockState = { mock: 'MOCK-STATE' } as any;
 
-        mockAction = hidePeriodicTableAction("");
-        actualState = settingsReducer(mockState, mockAction);
-        expect(actualState).toEqual(mockState);
-    });
+    mockAction = hidePeriodicTableAction('');
+    actualState = settingsReducer(mockState, mockAction);
+    expect(actualState).toEqual(mockState);
+  });
 
-    it("should set additional elements to array", () => {
-        mockState = { additionalElements: [] } as any;
+  it('should set additional elements to array', () => {
+    mockState = { additionalElements: [] } as any;
 
-        mockAction = hidePeriodicTableAction("X");
-        actualState = settingsReducer(mockState, mockAction);
-        expect(actualState).toEqual(jasmine.objectContaining({
-            additionalElements: ["X"],
-        }));
-    });
+    mockAction = hidePeriodicTableAction('X');
+    actualState = settingsReducer(mockState, mockAction);
+    expect(actualState).toEqual(
+      expect.objectContaining({
+        additionalElements: ['X'],
+      })
+    );
+  });
 
-    it("should not set additional element if such present in array", () => {
-        mockState = { additionalElements: ["X"] } as any;
+  it('should not set additional element if such present in array', () => {
+    mockState = { additionalElements: ['X'] } as any;
 
-        mockAction = hidePeriodicTableAction("X");
-        actualState = settingsReducer(mockState, mockAction);
-        expect(actualState).toEqual(jasmine.objectContaining({
-            additionalElements: ["X"],
-        }));
-    });
+    mockAction = hidePeriodicTableAction('X');
+    actualState = settingsReducer(mockState, mockAction);
+    expect(actualState).toEqual(
+      expect.objectContaining({
+        additionalElements: ['X'],
+      })
+    );
+  });
 
-    it("should correctly replace elements sequence", () => {
-        mockState = { additionalElements: ["A", "B"] } as any;
+  it('should correctly replace elements sequence', () => {
+    mockState = { additionalElements: ['A', 'B'] } as any;
 
-        mockAction = hidePeriodicTableAction("C");
-        actualState = settingsReducer(mockState, mockAction);
-        expect(actualState).toEqual(jasmine.objectContaining({
-            additionalElements: ["B", "C"],
-        }));
-    });
+    mockAction = hidePeriodicTableAction('C');
+    actualState = settingsReducer(mockState, mockAction);
+    expect(actualState).toEqual(
+      expect.objectContaining({
+        additionalElements: ['B', 'C'],
+      })
+    );
+  });
 
-    it("should set existing element to last", () => {
-        mockState = { additionalElements: ["A", "B"] } as any;
+  it('should set existing element to last', () => {
+    mockState = { additionalElements: ['A', 'B'] } as any;
 
-        mockAction = hidePeriodicTableAction("A");
-        actualState = settingsReducer(mockState, mockAction);
-        expect(actualState).toEqual(jasmine.objectContaining({
-            additionalElements: ["B", "A"],
-        }));
-    });
+    mockAction = hidePeriodicTableAction('A');
+    actualState = settingsReducer(mockState, mockAction);
+    expect(actualState).toEqual(
+      expect.objectContaining({
+        additionalElements: ['B', 'A'],
+      })
+    );
+  });
 });

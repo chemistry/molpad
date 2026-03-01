@@ -1,25 +1,15 @@
-import {
-    CameraState,
-    Reducer,
-    ZOOM_IN,
-    ZOOM_OUT,
-} from "../../declarations";
-import {
-    CameraHelperService,
-} from "../../services";
+import { CameraState, Reducer, ZOOM_IN, ZOOM_OUT } from '../../declarations/index.js';
+import { CameraHelperService } from '../../services/index.js';
 
-export const cameraReducer: Reducer<CameraState> = (
-    state,
-    action,
-) => {
-    switch (action.type) {
-        case ZOOM_IN:
-            return CameraHelperService.zoomIn(state);
+export const cameraReducer: Reducer<CameraState> = (state, action) => {
+  switch (action.type) {
+    case ZOOM_IN:
+      return CameraHelperService.zoomIn(state);
 
-        case ZOOM_OUT:
-          return CameraHelperService.zoomOut(state);
+    case ZOOM_OUT:
+      return CameraHelperService.zoomOut(state);
 
-        default:
-          return state;
-    }
+    default:
+      return state;
+  }
 };

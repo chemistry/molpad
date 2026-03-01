@@ -1,1 +1,1 @@
-export * from "./top-toolbar";
+export * from './top-toolbar.js';

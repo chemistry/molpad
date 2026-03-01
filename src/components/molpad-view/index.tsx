@@ -1,1 +1,1 @@
-export * from "./molpad-view";
+export * from './molpad-view.js';

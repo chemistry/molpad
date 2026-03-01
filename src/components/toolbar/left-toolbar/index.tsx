@@ -1,1 +1,1 @@
-export * from "./left-toolbar";
+export * from './left-toolbar.js';
