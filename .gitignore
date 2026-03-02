@@ -21,3 +21,6 @@ npm-debug.log
 .DS_Store
 lerna-debug.log
 .npmrc
+
+# typescript
+*.tsbuildinfo
