@@ -1,6 +1,39 @@
-export const COFFEINE = {
-  id: 'coffeine',
-  title: 'coffeine',
+type JMolAtom =
+  | [number, number, number, string]
+  | [number, number, number, string, boolean, string];
+type JMolBond = [number, number, number];
+
+interface JMol {
+  atoms: JMolAtom[];
+  bonds: JMolBond[];
+  id: string;
+  title: string;
+}
+
+export const BENZENE: JMol = {
+  atoms: [
+    [1.905, -0.7932, 0.0, 'C'],
+    [1.905, -2.1232, 0.0, 'C'],
+    [0.7531, -2.7882, 0.0, 'C'],
+    [-0.3987, -2.1232, 0.0, 'C'],
+    [-0.3987, -0.7932, 0.0, 'C'],
+    [0.7531, -0.1282, 0.0, 'C'],
+  ],
+  bonds: [
+    [1, 2, 1],
+    [2, 3, 2],
+    [3, 4, 1],
+    [4, 5, 2],
+    [5, 6, 1],
+    [6, 1, 2],
+  ],
+  id: 'benzene',
+  title: 'Benzene',
+};
+
+export const CAFFEINE: JMol = {
+  id: 'caffeine',
+  title: 'Caffeine',
   atoms: [
     [0.47, 2.5688, 0.0006, 'O'],
     [-3.1271, -0.4436, -0.0003, 'O'],

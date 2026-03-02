@@ -48,6 +48,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', 'example/'],
+    ignores: ['dist/', 'node_modules/', 'coverage/', 'showcase/'],
   }
 );
