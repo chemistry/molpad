@@ -1,6 +1,6 @@
 {
   "name": "@chemistry/molpad",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Molecule Editor",
   "type": "module",
   "author": {
@@ -26,7 +26,9 @@
     "access": "public"
   },
   "private": false,
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist",
     "README.md"
@@ -40,7 +42,8 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy:assets",
+    "copy:assets": "cd src && find . \\( -name '*.css' -o -name '*.svg' \\) -exec cp --parents {} ../dist/ \\;",
     "test": "vitest run",
     "lint": "eslint src/",
     "format": "prettier --write .",
