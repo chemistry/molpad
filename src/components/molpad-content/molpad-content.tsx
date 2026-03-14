@@ -26,7 +26,7 @@ export const MolPadContent = () => {
     };
     updateCenter();
     window.addEventListener('resize', updateCenter);
-    return () => window.removeEventListener('resize', updateCenter);
+    return () => { window.removeEventListener('resize', updateCenter); };
   }, []);
   const [bondIdHovered, setBondIdHovered] = useState('');
 
