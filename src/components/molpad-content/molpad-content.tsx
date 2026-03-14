@@ -1,5 +1,5 @@
 import { ChemElements } from '@chemistry/elements';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   mouseDownAction,
   mouseLeaveAction,
@@ -12,12 +12,22 @@ import './molpad-content.css';
 
 import { CameraHelperService, LineCoords, MolSvgHelper } from '../../services/index.js';
 
-const X_50_PERSENT = 267;
-const Y_50_PERSENT = 253;
-
 export const MolPadContent = () => {
   const svgcontainer = useRef<SVGSVGElement | null>(null);
   const [atomIdHovered, setAtomIdHovered] = useState('');
+  const [center, setCenter] = useState({ x: 267, y: 253 });
+
+  useEffect(() => {
+    const updateCenter = () => {
+      if (svgcontainer.current) {
+        const bounds = svgcontainer.current.getBoundingClientRect();
+        setCenter({ x: Math.round(bounds.width / 2), y: Math.round(bounds.height / 2) });
+      }
+    };
+    updateCenter();
+    window.addEventListener('resize', updateCenter);
+    return () => window.removeEventListener('resize', updateCenter);
+  }, []);
   const [bondIdHovered, setBondIdHovered] = useState('');
 
   const molecule = useMolpadStore((state) => state.data.molecule);
@@ -221,8 +231,8 @@ export const MolPadContent = () => {
         return;
       }
       const bounds = svgcontainer.current.getBoundingClientRect();
-      const x = event.nativeEvent.clientX - bounds.left - X_50_PERSENT;
-      const y = event.nativeEvent.clientY - bounds.top - Y_50_PERSENT;
+      const x = event.nativeEvent.clientX - bounds.left - center.x;
+      const y = event.nativeEvent.clientY - bounds.top - center.y;
       dispatch(mouseDownAction(x, y));
     },
     [dispatch]
@@ -234,8 +244,8 @@ export const MolPadContent = () => {
         return;
       }
       const bounds = svgcontainer.current.getBoundingClientRect();
-      const x = event.nativeEvent.clientX - bounds.left - X_50_PERSENT;
-      const y = event.nativeEvent.clientY - bounds.top - Y_50_PERSENT;
+      const x = event.nativeEvent.clientX - bounds.left - center.x;
+      const y = event.nativeEvent.clientY - bounds.top - center.y;
 
       dispatch(mouseMoveAction(x, y));
     },
@@ -248,8 +258,8 @@ export const MolPadContent = () => {
         return;
       }
       const bounds = svgcontainer.current.getBoundingClientRect();
-      const x = event.nativeEvent.clientX - bounds.left - X_50_PERSENT;
-      const y = event.nativeEvent.clientY - bounds.top - Y_50_PERSENT;
+      const x = event.nativeEvent.clientX - bounds.left - center.x;
+      const y = event.nativeEvent.clientY - bounds.top - center.y;
       dispatch(mouseUpAction(x, y));
     },
     [dispatch]
@@ -265,7 +275,7 @@ export const MolPadContent = () => {
   const atomsView = getAtomsView();
   const bondsView = getBondsView();
   const overlapView = getAtomsOverlapView();
-  const transform = 'translate(' + X_50_PERSENT + ',' + Y_50_PERSENT + ')';
+  const transform = 'translate(' + center.x + ',' + center.y + ')';
 
   return (
     <div className="molpad-content">
