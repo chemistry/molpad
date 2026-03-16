@@ -6,6 +6,8 @@
     "strict": true,
     "declaration": true,
     "declarationMap": true,
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
