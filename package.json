@@ -1,6 +1,6 @@
 {
   "name": "@chemistry/molpad",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "Molecule Editor",
   "type": "module",
   "author": {
@@ -39,11 +39,11 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./molpad.css": "./dist/molpad.css"
   },
   "scripts": {
-    "build": "tsc && npm run copy:assets",
-    "copy:assets": "cd src && find . \\( -name '*.css' -o -name '*.svg' \\) -exec cp --parents {} ../dist/ \\;",
+    "build": "vite build && tsc --emitDeclarationOnly",
     "test": "vitest run",
     "lint": "eslint src/",
     "format": "prettier --write .",
@@ -65,6 +65,7 @@
     "@testing-library/react": "^16.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "^4.0.0",
     "eslint": "^10.0.0",
     "jsdom": "^28.1.0",
@@ -73,6 +74,7 @@
     "react-dom": "^18.0.0",
     "typescript": "^5.9.0",
     "typescript-eslint": "^8.56.0",
+    "vite": "^8.0.0",
     "vitest": "^4.0.0"
   }
 }
