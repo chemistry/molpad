@@ -37,7 +37,7 @@ describe('MolSvgHelper', () => {
         x: 0,
         y: 0,
         z: 0,
-      } as JMolAtomWrap;
+      };
       const mockBonds: JMolBondWrapCollection = {};
       const res = sut.isLabelShown(mockAtom, mockBonds);
       expect(res).toBeTruthy();
@@ -50,7 +50,7 @@ describe('MolSvgHelper', () => {
         x: 0,
         y: 0,
         z: 0,
-      } as JMolAtomWrap;
+      };
       const mockBonds: JMolBondWrapCollection = {};
       const res = sut.isLabelShown(mockAtom, mockBonds);
       expect(res).toBeTruthy();
@@ -63,7 +63,7 @@ describe('MolSvgHelper', () => {
         x: 0,
         y: 0,
         z: 0,
-      } as JMolAtomWrap;
+      };
       const mockBonds: JMolBondWrapCollection = {};
       const res = sut.isLabelShown(mockAtom, mockBonds);
       expect(res).toBeTruthy();
@@ -76,7 +76,7 @@ describe('MolSvgHelper', () => {
         x: 0,
         y: 0,
         z: 0,
-      } as JMolAtomWrap;
+      };
       const mockBonds: JMolBondWrapCollection = {
         'bond:id': {
           id: 'bond:id',
@@ -96,7 +96,7 @@ describe('MolSvgHelper', () => {
         x: 0,
         y: 0,
         z: 0,
-      } as JMolAtomWrap;
+      };
       const mockBonds: JMolBondWrapCollection = {
         'bond:id': {
           id: 'bond:id',
