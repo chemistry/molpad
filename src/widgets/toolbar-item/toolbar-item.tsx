@@ -75,7 +75,7 @@ export const ToolBarItem = (props: ToolBarItemProps) => {
       className={toolbarClassName}
       title={props.title ?? ''}
       onClick={props.onItemClicked}
-      style={props.style as React.CSSProperties | undefined}
+      style={props.style}
     >
       {props.name ?? ''}
       {props.icon ? <i className={'fa ' + props.icon} aria-hidden="true"></i> : ''}
