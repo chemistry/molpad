@@ -77,5 +77,5 @@ The `release.yml` GitHub Action will publish to npm and create a GitHub Release 
 
 ## License
 
-This project is licensed under the MIT license, Copyright (c) 2025 Volodymyr Vreshch.
+This project is licensed under the MIT license, Copyright (c) 2026 Volodymyr Vreshch.
 For more information see [LICENSE](https://github.com/chemistry/molpad/blob/master/LICENSE).
