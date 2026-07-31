@@ -1,9 +1,13 @@
 name: Release Train
 
 # Fully automated Friday MINOR release of @chemistry/molpad. Level 1 train: it
-# runs an hour after the @chemistry base packages release (20:00 Prague), first
-# bumps the internal @chemistry/* deps to their freshly published versions, then
-# cuts a minor release so molpad always ships against the latest base packages.
+# runs an hour after the @chemistry base packages release (L0, chemical-libraries,
+# 19:00 UTC), first bumps the internal @chemistry/* deps to their freshly
+# published versions, then cuts a minor release so molpad always ships against
+# the latest base packages.
+#
+# Single UTC cron, no Prague hour gate: if GitHub fires the cron late, the train
+# just departs late instead of being gated away.
 #
 # GITHUB_TOKEN caveats handled here: its branch pushes do not fire pr-validation
 # on the release PR (the in-workflow `npm run verify` is the gate), and its merges
@@ -12,8 +16,6 @@ name: Release Train
 # version and creates the v-tag idempotently.
 on:
   schedule:
-    # Friday 21:00 Europe/Prague, both DST offsets; the gate job filters.
-    - cron: '0 19 * * 5'
     - cron: '0 20 * * 5'
   workflow_dispatch:
 
@@ -23,33 +25,8 @@ permissions:
   actions: write
 
 jobs:
-  prague-gate:
-    name: 🕘 Friday 21:00 Prague gate
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      go: ${{ steps.gate.outputs.go }}
-    steps:
-      - name: Check local Prague hour (DST-proof)
-        id: gate
-        run: |
-          if [ "${{ github.event_name }}" != "schedule" ]; then
-            echo "workflow_dispatch - bypassing hour gate."
-            echo "go=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          HOUR=$(TZ=Europe/Prague date +%H)
-          if [ "$HOUR" = "21" ]; then
-            echo "go=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Prague hour is $HOUR, not 21 - wrong DST cron slot, skipping."
-            echo "go=false" >> "$GITHUB_OUTPUT"
-          fi
-
   merge-green-dependabot:
     name: 🤖 Merge green dependabot PRs
-    needs: prague-gate
-    if: needs.prague-gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -102,8 +79,7 @@ jobs:
 
   release:
     name: 🚝 Cut minor release
-    needs: [prague-gate, merge-green-dependabot]
-    if: needs.prague-gate.outputs.go == 'true'
+    needs: merge-green-dependabot
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -142,7 +118,7 @@ jobs:
         run: |
           set -euo pipefail
           # The point of a Level 1 train: pull in the @chemistry base packages
-          # released at 20:00, so molpad ships against the latest ones.
+          # released at 19:00 UTC (L0), so molpad ships against the latest ones.
           npx --yes npm-check-updates -u --dep prod,dev --filter "@chemistry/*"
           npm install
           if git diff --quiet -- package.json; then
