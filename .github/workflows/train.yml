@@ -1,0 +1,194 @@
+name: Train
+
+# Fully automated Friday release. Direct-to-master, OIDC trusted publishing (no NPM_TOKEN).
+# Red run = the only alarm; there are no silent-skip states.
+on:
+  schedule:
+    - cron: '0 20 * * 5'
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'auto: code->minor, deps-only->patch, nothing->skip. none: republish current version (repair).'
+        type: choice
+        options: [auto, patch, minor, major, none]
+        default: auto
+      bump_deps:
+        description: 'Merge green dependabot PRs first (+ internal @chemistry/* bump on L1)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: train
+  cancel-in-progress: false
+
+jobs:
+  deps:
+    name: Merge green dependabot PRs
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # schedule always bumps deps; dispatch only when bump_deps=true
+    if: github.event_name == 'schedule' || inputs.bump_deps
+    steps:
+      - name: Squash-merge dependabot PRs whose checks are green
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Each bot PR was verified by pr-validation like any common PR; green = merge, red = leave open.
+          PRS=$(gh pr list -R "$REPO" --author "app/dependabot" --state open --json number --jq '.[].number')
+          [ -z "$PRS" ] && { echo "No open dependabot PRs." | tee -a "$GITHUB_STEP_SUMMARY"; exit 0; }
+          echo "## Dependabot PRs" >> "$GITHUB_STEP_SUMMARY"
+          for PR in $PRS; do
+            SETTLED=false
+            for i in $(seq 1 20); do
+              OUT=$(gh pr checks "$PR" -R "$REPO" --json bucket 2>/dev/null || true); [ -z "$OUT" ] && OUT="[]"
+              PENDING=$(echo "$OUT" | jq '[.[] | select(.bucket=="pending")] | length')
+              [ "$PENDING" = "0" ] && { SETTLED=true; break; }
+              echo "poll $i: PR #$PR has $PENDING pending check(s)"; sleep 30
+            done
+            OUT=$(gh pr checks "$PR" -R "$REPO" --json bucket 2>/dev/null || true); [ -z "$OUT" ] && OUT="[]"
+            FAILED=$(echo "$OUT" | jq '[.[] | select(.bucket=="fail" or .bucket=="cancel")] | length')
+            if [ "$SETTLED" = "true" ] && [ "$FAILED" = "0" ]; then
+              gh pr merge "$PR" -R "$REPO" --squash --delete-branch \
+                && echo "- #$PR merged" >> "$GITHUB_STEP_SUMMARY" \
+                || echo "- #$PR green but merge failed - left open" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "- #$PR left open (failed=$FAILED settled=$SETTLED)" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+
+  release:
+    name: Release
+    needs: deps
+    # run even when deps was skipped (manual, bump_deps=false)
+    if: always() && needs.deps.result != 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          # NOTE: no registry-url here - setup-node's .npmrc would demand NODE_AUTH_TOKEN.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Update npm for OIDC trusted publishing
+        run: npm install -g npm@latest && npm --version # OIDC needs npm >= 11.5.1; node22 ships 10.x
+
+      - name: Resolve mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "bump=auto" >> "$GITHUB_OUTPUT"; echo "deps=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "bump=${{ inputs.bump }}" >> "$GITHUB_OUTPUT"; echo "deps=${{ inputs.bump_deps }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sync to post-merge master
+        run: git fetch origin master && git reset --hard origin/master && npm ci
+
+      - name: Bump internal @chemistry/* deps
+        id: ncu
+        if: steps.mode.outputs.deps == 'true'
+        run: |
+          set -euo pipefail
+          npx --yes npm-check-updates -u --dep prod,dev --filter '@chemistry/*'
+          npm install
+          if git diff --quiet -- package.json; then echo "changed=false" >> "$GITHUB_OUTPUT"
+          else git --no-pager diff -- package.json; echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Decide version bump
+        id: decide
+        run: |
+          set -euo pipefail
+          BUMP="${{ steps.mode.outputs.bump }}"
+          if [ "$BUMP" = "auto" ]; then
+            LAST_TAG=$(git tag --list 'v[0-9]*' --sort=-v:refname | head -1)
+            RANGE=""; [ -n "$LAST_TAG" ] && RANGE="${LAST_TAG}..HEAD"
+            SUBJECTS=$(git log $RANGE --no-merges --pretty=%s)
+            CODE=$(printf '%s\n' "$SUBJECTS" | grep -vE '^(docs|ci)(\([^)]*\))?!?:' | grep -vE '^chore(\([^)]*\))?!?:' | grep -c . || true)
+            DEPS=$(printf '%s\n' "$SUBJECTS" | grep -cE '^chore\(deps' || true)
+            [ "${{ steps.ncu.outputs.changed }}" = "true" ] && DEPS=$((DEPS+1))
+            if   [ "$CODE" -gt 0 ]; then BUMP=minor
+            elif [ "$DEPS" -gt 0 ]; then BUMP=patch
+            else BUMP=skip; fi
+            echo "Since ${LAST_TAG:-start}: code=$CODE deps=$DEPS -> $BUMP" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "bump=$BUMP" >> "$GITHUB_OUTPUT"
+
+      - name: Bump version
+        id: bump
+        if: steps.decide.outputs.bump != 'skip' && steps.decide.outputs.bump != 'none'
+        run: |
+          set -euo pipefail
+          NEW=$(npm version "${{ steps.decide.outputs.bump }}" --no-git-tag-version); NEW="${NEW#v}"
+          echo "version=$NEW" >> "$GITHUB_OUTPUT"
+      - name: Current version (repair mode)
+        id: cur
+        if: steps.decide.outputs.bump == 'none'
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Verify
+        id: verify
+        if: steps.decide.outputs.bump != 'skip'
+        run: |
+          set +e
+          npm run verify; RC=$?
+          set -e
+          if [ "$RC" -ne 0 ] && [ "${{ steps.ncu.outputs.changed }}" = "true" ]; then
+            echo "Verify failed after internal dep bump - reverting deps, keeping code release." | tee -a "$GITHUB_STEP_SUMMARY"
+            git checkout -- package.json package-lock.json && npm ci
+            # re-apply version bump lost by the revert
+            if [ -n "${{ steps.bump.outputs.version }}" ]; then npm version "${{ steps.bump.outputs.version }}" --no-git-tag-version --allow-same-version; fi
+            npm run verify
+          elif [ "$RC" -ne 0 ]; then exit "$RC"; fi
+
+      - name: Commit to master + tag
+        id: commit
+        if: steps.bump.outputs.version
+        run: |
+          set -euo pipefail
+          V="${{ steps.bump.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(release): v${V}"
+          git pull --rebase origin master
+          git push origin HEAD:master
+          git tag -a "v${V}" -m "Release v${V}"
+          git push origin "v${V}"
+
+      - name: Publish (OIDC, idempotent)
+        id: publish
+        if: steps.bump.outputs.version || steps.cur.outputs.version
+        run: |
+          set -euo pipefail
+          V="${{ steps.bump.outputs.version || steps.cur.outputs.version }}"
+          publish() {  # tolerate ONLY already-published; anything else fails the run
+            local OUT
+            if OUT=$(npm publish ${1:+-w "$1"} --access public 2>&1); then echo "${1:-pkg} published"
+            elif echo "$OUT" | grep -qE "EPUBLISHCONFLICT|cannot publish over"; then echo "${1:-pkg} already on npm - ok"
+            else echo "$OUT"; echo "::error::publish failed ${1:-}"; exit 1; fi
+          }
+          publish            # single-package repos; monorepo lists workspaces in dep order instead
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Assert npm serves it + GH release
+        if: steps.publish.outputs.version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          V="${{ steps.publish.outputs.version }}"
+          NAME=$(node -p "require('./package.json').name")
+          for i in $(seq 1 10); do npm view "${NAME}@${V}" version >/dev/null 2>&1 && break; [ "$i" = 10 ] && { echo "::error::npm does not serve ${NAME}@${V}"; exit 1; }; sleep 15; done
+          git tag -a "v${V}" -m "Release v${V}" 2>/dev/null || true; git push origin "v${V}" 2>/dev/null || true
+          gh release view "v${V}" >/dev/null 2>&1 || gh release create "v${V}" --generate-notes
+          echo "Shipped v${V}" >> "$GITHUB_STEP_SUMMARY"
