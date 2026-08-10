@@ -4,7 +4,7 @@ export interface PopupProps {
   title: string;
   onClose: () => void;
   width: number;
-  children: JSX.Element;
+  children: React.JSX.Element;
 }
 
 import './popup.css';

@@ -28,7 +28,7 @@ const getPeriodicRepresentation = ({
   onElementSelect,
 }: {
   onElementSelect: (element: string) => void;
-}): JSX.Element => {
+}): React.JSX.Element => {
   return (
     <table className="c-periodic-table">
       <tbody>
@@ -76,7 +76,7 @@ export const PeriodicTableComponent = ({
   isOpen: boolean;
   onClose: () => void;
   onElementSelect: (element: string) => void;
-}): JSX.Element => {
+}): React.JSX.Element => {
   return (
     <Popup isOpen={isOpen} title={'Periodic Table'} onClose={onClose} width={754}>
       {getPeriodicRepresentation({ onElementSelect })}
