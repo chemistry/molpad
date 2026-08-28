@@ -1,6 +1,6 @@
 {
   "name": "@chemistry/molpad",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "Molecule Editor",
   "type": "module",
   "author": {
@@ -52,8 +52,8 @@
     "verify": "npm run type-check && npm run lint && npm run format:check && npm run test && npm run build"
   },
   "dependencies": {
-    "@chemistry/elements": "^3.6.1",
-    "@chemistry/molecule": "^3.6.1",
+    "@chemistry/elements": "^3.6.2",
+    "@chemistry/molecule": "^3.6.2",
     "zustand": "^5.0.0"
   },
   "peerDependencies": {
