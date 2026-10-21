@@ -69,11 +69,10 @@ npm run dev
 ## Release
 
 ```bash
-git tag v3.1.0
-git push --tags
+gh workflow run prepare-release.yml -R chemistry/molpad
 ```
 
-The `release.yml` GitHub Action will publish to npm and create a GitHub Release automatically.
+This opens a `chore(release)` PR with auto-merge armed. When PR Validation is green it merges, and `release.yml` publishes to npm (OIDC trusted publishing), tags `v<version>` and creates a GitHub Release.
 
 ## License
 
