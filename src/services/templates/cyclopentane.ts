@@ -1,4 +1,4 @@
-import { JMol } from '../../declarations/index.js';
+import { type JMol } from '../../declarations/index.js';
 export const CYCLOPENTANE = {
   atoms: [
     [0.3005, 0.0, 0.0, 'C'],

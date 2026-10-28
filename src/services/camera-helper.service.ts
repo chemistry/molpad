@@ -1,4 +1,4 @@
-import { CameraState } from '../declarations/index.js';
+import { type CameraState } from '../declarations/index.js';
 
 export const ZOOM_IN_FACTOR = 1.25;
 export const ZOOM_OUT_FACTOR = 1 / ZOOM_IN_FACTOR;
@@ -6,7 +6,7 @@ export const MAX_ZOOM_FACTOR = 50;
 export const MIN_ZOOM_FACTOR = 20;
 export const EPSILON = 0.00001;
 
-import { Vec2 } from '../declarations/index.js';
+import { type Vec2 } from '../declarations/index.js';
 
 export class CameraHelperService {
   public static project(camera: CameraState, { x, y }: Vec2): Vec2 {

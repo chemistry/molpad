@@ -3,8 +3,8 @@ import {
   MOUSE_LEAVE,
   MOUSE_MOVE,
   MOUSE_UP,
-  Reducer,
-  StoreState,
+  type Reducer,
+  type StoreState,
   ToolMode,
 } from '../declarations/index.js';
 

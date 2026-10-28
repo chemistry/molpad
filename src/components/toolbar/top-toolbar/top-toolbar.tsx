@@ -31,33 +31,25 @@ export const TOOLBAR_TOP_CONFIG: ToolBarItemConfig[] = [
     id: 'UNDO',
     title: 'Undo',
     iconClassName: 'c-toolbar-item--undo',
-    isDisabled: (state: StoreState) => {
-      return state.pastData.length === 0;
-    },
+    isDisabled: (state: StoreState) => state.pastData.length === 0,
   },
   {
     id: 'REDO',
     title: 'Redo',
     iconClassName: 'c-toolbar-item--redo',
-    isDisabled: (state: StoreState) => {
-      return state.futureData.length === 0;
-    },
+    isDisabled: (state: StoreState) => state.futureData.length === 0,
   },
   {
     id: 'ZOOM_OUT',
     title: 'Zoom Out',
     iconClassName: 'c-toolbar-item--zoom-out',
-    isDisabled: (state: StoreState) => {
-      return !CameraHelperService.canZoomOut(state.data.camera);
-    },
+    isDisabled: (state: StoreState) => !CameraHelperService.canZoomOut(state.data.camera),
   },
   {
     id: 'ZOOM_IN',
     title: 'Zoom In',
     iconClassName: 'c-toolbar-item--zoom-in',
-    isDisabled: (state: StoreState) => {
-      return !CameraHelperService.canZoomIn(state.data.camera);
-    },
+    isDisabled: (state: StoreState) => !CameraHelperService.canZoomIn(state.data.camera),
   },
   {
     id: 'CLEAR',

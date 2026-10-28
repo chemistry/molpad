@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { useMolpadStore } from './store/index.js';
 import { MolPadView } from './components/index.js';
 import { loadMoleculeAction } from './actions/index.js';
-import { JMol } from './declarations/index.js';
+import { type JMol } from './declarations/index.js';
 import { MoleculeHelperService } from './services/index.js';
 
 export interface MolPadHandle {
@@ -18,9 +18,7 @@ export const MolPad = forwardRef<MolPadHandle>((_props, ref) => {
     loadMolecule: (jmol: JMol) => {
       dispatch(loadMoleculeAction(jmol));
     },
-    getJmol: () => {
-      return MoleculeHelperService.unWrapMolecule(molecule)!;
-    },
+    getJmol: () => MoleculeHelperService.unWrapMolecule(molecule)!,
   }));
 
   return <MolPadView />;

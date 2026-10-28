@@ -1,4 +1,4 @@
-import { DataModelState } from '../declarations/index.js';
+import { type DataModelState } from '../declarations/index.js';
 
 export const MAX_UNDO_REDO_STACK_SIZE = 20;
 

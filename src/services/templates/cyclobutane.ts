@@ -1,4 +1,4 @@
-import { JMol } from '../../declarations/index.js';
+import { type JMol } from '../../declarations/index.js';
 export const CYCLOBUTANE = {
   atoms: [
     [0.0, 0.0, 0.0, 'C'],

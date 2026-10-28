@@ -1,4 +1,4 @@
-import { JMolWrapModel } from './wrap.models.js';
+import { type JMolWrapModel } from './wrap.models.js';
 
 export interface StoreState {
   toolbar: ToolBarState;

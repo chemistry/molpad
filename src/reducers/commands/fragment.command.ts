@@ -1,10 +1,10 @@
 import {
-  JMol,
-  JMolBondWrap,
-  JMolWrapModel,
+  type JMol,
+  type JMolBondWrap,
+  type JMolWrapModel,
   MOUSE_DOWN,
-  Reducer,
-  StoreState,
+  type Reducer,
+  type StoreState,
 } from '../../declarations/index.js';
 import {
   CameraHelperService,

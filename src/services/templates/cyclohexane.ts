@@ -1,4 +1,4 @@
-import { JMol } from '../../declarations/index.js';
+import { type JMol } from '../../declarations/index.js';
 export const CYCLOHEXANE = {
   atoms: [
     [1.905, -0.7932, 0.0, 'C'],

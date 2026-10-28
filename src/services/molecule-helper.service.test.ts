@@ -1,4 +1,4 @@
-import { JMol, JMolAtom } from '../declarations/index.js';
+import { type JMol, type JMolAtom } from '../declarations/index.js';
 import { MoleculeHelperService } from './molecule-helper.service.js';
 
 const BENZENE = {
@@ -47,9 +47,7 @@ describe('MoleculeHelperService', () => {
 
     it('should center atoms', () => {
       const res = MoleculeHelperService.normalizeJmol(BENZENE as JMol);
-      const sumXY = res.atoms.reduce((acc: number, curr: JMolAtom) => {
-        return acc + curr[0] + curr[1];
-      }, 0);
+      const sumXY = res.atoms.reduce((acc: number, curr: JMolAtom) => acc + curr[0] + curr[1], 0);
       expect(sumXY).toBeCloseTo(0);
     });
   });

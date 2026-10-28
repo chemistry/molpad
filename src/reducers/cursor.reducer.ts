@@ -1,10 +1,10 @@
 import {
-  CursorState,
+  type CursorState,
   MOUSE_DOWN,
   MOUSE_LEAVE,
   MOUSE_MOVE,
   MOUSE_UP,
-  Reducer,
+  type Reducer,
 } from '../declarations/index.js';
 
 export const cursorReducer: Reducer<CursorState> = (state, action) => {

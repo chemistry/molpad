@@ -2,7 +2,7 @@ import React from 'react';
 import { setToolModeAction } from '../../../actions/index.js';
 import type { StoreState } from '../../../declarations/index.js';
 import { useMolpadStore } from '../../../store/index.js';
-import { ToolBar, ToolBarOrientation } from '../../../widgets/index.js';
+import { ToolBar, type ToolBarOrientation } from '../../../widgets/index.js';
 import type { ToolBarItemConfig } from '../../../widgets/toolbar-item/toolbar-item.js';
 
 function prepareData(data: ToolBarItemConfig[], state: StoreState): ToolBarItemConfig[] {

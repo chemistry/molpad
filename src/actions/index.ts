@@ -1,4 +1,4 @@
-import { JMol, ToolMode } from '../declarations/index.js';
+import { type JMol, type ToolMode } from '../declarations/index.js';
 
 import * as constants from '../declarations/constants.js';
 

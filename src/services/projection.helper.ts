@@ -1,9 +1,9 @@
 import {
-  CameraState,
-  JMolAtomWrap,
-  JMolBondWrap,
-  JMolWrapModel,
-  Vec2,
+  type CameraState,
+  type JMolAtomWrap,
+  type JMolBondWrap,
+  type JMolWrapModel,
+  type Vec2,
 } from '../declarations/index.js';
 import { CameraHelperService, MolSvgHelper } from './index.js';
 

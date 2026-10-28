@@ -1,8 +1,8 @@
 import {
   HIDE_PERIODIC_TABLE,
-  Reducer,
+  type Reducer,
   SET_TOOL_MODE,
-  ToolBarState,
+  type ToolBarState,
   ToolMode,
 } from '../declarations/index.js';
 

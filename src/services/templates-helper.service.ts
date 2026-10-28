@@ -1,4 +1,4 @@
-import { JMol, JMolAtomWrap } from '../declarations/index.js';
+import { type JMol, type JMolAtomWrap } from '../declarations/index.js';
 import { MoleculeHelperService } from './molecule-helper.service.js';
 import { BENZENE, CYCLOBUTANE, CYCLOHEXANE, CYCLOPENTANE } from './templates/index.js';
 
@@ -10,9 +10,7 @@ const templates = [
 ];
 export class TemplatesHelperService {
   public static getTemplateById(id: string): JMol | undefined {
-    const data = templates.find((template) => {
-      return template.id === id;
-    });
+    const data = templates.find((template) => template.id === id);
     return data ? structuredClone(data) : undefined;
   }
 
@@ -64,9 +62,7 @@ export class TemplatesHelperService {
   public static shiftTemplate(template: JMol, { x, y }: { x: number; y: number }) {
     return {
       ...template,
-      atoms: template.atoms.map((atom) => {
-        return [atom[0] + x, atom[1] + y, atom[2], atom[3]];
-      }),
+      atoms: template.atoms.map((atom) => [atom[0] + x, atom[1] + y, atom[2], atom[3]]),
     } as JMol;
   }
 
@@ -98,9 +94,7 @@ export class TemplatesHelperService {
 
     return {
       ...template,
-      atoms: template.atoms.map((atom) => {
-        return [atom[0] * scale, atom[1] * scale, 0, atom[3]];
-      }),
+      atoms: template.atoms.map((atom) => [atom[0] * scale, atom[1] * scale, 0, atom[3]]),
     } as JMol;
   }
 

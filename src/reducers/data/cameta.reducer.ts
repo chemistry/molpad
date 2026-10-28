@@ -1,4 +1,4 @@
-import { CameraState, Reducer, ZOOM_IN, ZOOM_OUT } from '../../declarations/index.js';
+import { type CameraState, type Reducer, ZOOM_IN, ZOOM_OUT } from '../../declarations/index.js';
 import { CameraHelperService } from '../../services/index.js';
 
 export const cameraReducer: Reducer<CameraState> = (state, action) => {

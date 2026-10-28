@@ -1,4 +1,9 @@
-import { CLEAR_ALL, JMolWrapModel, LOAD_MOLECULE, Reducer } from '../../declarations/index.js';
+import {
+  CLEAR_ALL,
+  type JMolWrapModel,
+  LOAD_MOLECULE,
+  type Reducer,
+} from '../../declarations/index.js';
 import { MoleculeHelperService } from '../../services/index.js';
 
 export const moleculeReducer: Reducer<JMolWrapModel> = (state, action) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { StoreState } from '../../declarations/index.js';
-import { ToolMode } from '../../declarations/index.js';
+import { type ToolMode } from '../../declarations/index.js';
 import { ToolBarOrientation } from '../toolbar/toolbar.js';
 import './toolbar-item.css';
 

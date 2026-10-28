@@ -1,4 +1,4 @@
-import { JMolAtomWrap, JMolWrapModel, StoreState } from '../declarations/index.js';
+import { type JMolAtomWrap, type JMolWrapModel, type StoreState } from '../declarations/index.js';
 
 export class MoleculeCalcsHelper {
   public static proposeEndAtom(
@@ -105,18 +105,14 @@ export class MoleculeCalcsHelper {
     intervals = intervals.sort((a, b) => b.angle - a.angle);
     const biggestAngle = intervals[0];
     const diffAgle = intervals[intervals.length - 1].angle / 4;
-    const sutableIntervals = intervals.filter((ang) => {
-      return ang.angle > biggestAngle.angle - diffAgle;
-    });
+    const sutableIntervals = intervals.filter((ang) => ang.angle > biggestAngle.angle - diffAgle);
     function diffTo45(a: number): number {
       if (a > (5 * Math.PI) / 4) {
         return (Math.PI / 4 + (2 * Math.PI - a)) % (2 * Math.PI);
       }
       return a - Math.PI / 4;
     }
-    sutableIntervals.sort((a, b) => {
-      return diffTo45(a.direction) - diffTo45(b.direction);
-    });
+    sutableIntervals.sort((a, b) => diffTo45(a.direction) - diffTo45(b.direction));
     return sutableIntervals[0].direction;
   }
 
@@ -136,12 +132,8 @@ export class MoleculeCalcsHelper {
         }
         return null;
       })
-      .filter((cAtomId: string | null) => {
-        return cAtomId !== null;
-      });
+      .filter((cAtomId: string | null) => cAtomId !== null);
 
-    return neighbourAtomIds.map((cAtomId: string) => {
-      return molecule.atoms[cAtomId];
-    });
+    return neighbourAtomIds.map((cAtomId: string) => molecule.atoms[cAtomId]);
   }
 }
