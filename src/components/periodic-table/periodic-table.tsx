@@ -28,45 +28,43 @@ const getPeriodicRepresentation = ({
   onElementSelect,
 }: {
   onElementSelect: (element: string) => void;
-}): React.JSX.Element => {
-  return (
-    <table className="c-periodic-table">
-      <tbody>
-        {rowsRange.map((rowId) => {
-          if (!PERIODIC_TABLE[rowId]) {
-            return <tr key={rowId}></tr>;
-          }
+}): React.JSX.Element => (
+  <table className="c-periodic-table">
+    <tbody>
+      {rowsRange.map((rowId) => {
+        if (!PERIODIC_TABLE[rowId]) {
+          return <tr key={rowId}></tr>;
+        }
 
-          return (
-            <tr key={rowId}>
-              {colsRange.map((colId) => {
-                const element = PERIODIC_TABLE[rowId][colId];
-                if (!element) {
-                  return <td key={colId}>&nbsp;</td>;
-                }
+        return (
+          <tr key={rowId}>
+            {colsRange.map((colId) => {
+              const element = PERIODIC_TABLE[rowId][colId];
+              if (!element) {
+                return <td key={colId}>&nbsp;</td>;
+              }
 
-                return (
-                  <td
-                    key={colId}
-                    title={element.name}
-                    style={{ color: element.color2 }}
-                    className="c-periodic-table__element"
-                    role="button"
-                    onClick={() => {
-                      onElementSelect(element.symbol);
-                    }}
-                  >
-                    {element.symbol}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-};
+              return (
+                <td
+                  key={colId}
+                  title={element.name}
+                  style={{ color: element.color2 }}
+                  className="c-periodic-table__element"
+                  role="button"
+                  onClick={() => {
+                    onElementSelect(element.symbol);
+                  }}
+                >
+                  {element.symbol}
+                </td>
+              );
+            })}
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+);
 
 export const PeriodicTableComponent = ({
   isOpen,
@@ -76,13 +74,11 @@ export const PeriodicTableComponent = ({
   isOpen: boolean;
   onClose: () => void;
   onElementSelect: (element: string) => void;
-}): React.JSX.Element => {
-  return (
-    <Popup isOpen={isOpen} title={'Periodic Table'} onClose={onClose} width={754}>
-      {getPeriodicRepresentation({ onElementSelect })}
-    </Popup>
-  );
-};
+}): React.JSX.Element => (
+  <Popup isOpen={isOpen} title={'Periodic Table'} onClose={onClose} width={754}>
+    {getPeriodicRepresentation({ onElementSelect })}
+  </Popup>
+);
 
 export const PeriodicTable = () => {
   const isOpen = useMolpadStore((state) => state.isTableShown);

@@ -1,4 +1,4 @@
-import { Reducer, StoreState, ToolMode } from '../declarations/index.js';
+import { type Reducer, type StoreState, ToolMode } from '../declarations/index.js';
 import { cursorReducer } from './cursor.reducer.js';
 import { dataReducer } from './data/index.js';
 import { postCombineCacheReducer } from './post-combine-cache.reducer.js';

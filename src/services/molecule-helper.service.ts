@@ -1,12 +1,12 @@
 import {
-  JMol,
-  JMolAtom,
-  JMolAtomWrap,
-  JMolAtomWrapCollection,
-  JMolBond,
-  JMolBondWrap,
-  JMolBondWrapCollection,
-  JMolWrapModel,
+  type JMol,
+  type JMolAtom,
+  type JMolAtomWrap,
+  type JMolAtomWrapCollection,
+  type JMolBond,
+  type JMolBondWrap,
+  type JMolBondWrapCollection,
+  type JMolWrapModel,
 } from '../declarations/index.js';
 
 import { uniqueId } from './unique-id.js';
@@ -47,12 +47,10 @@ export class MoleculeHelperService {
 
     if (atoms.length > 0) {
       const sumCoords = atoms.reduce(
-        ({ x, y }, atom) => {
-          return {
-            x: x + atom[0],
-            y: y + atom[1],
-          };
-        },
+        ({ x, y }, atom) => ({
+          x: x + atom[0],
+          y: y + atom[1],
+        }),
         { x: 0, y: 0 }
       );
       let center = { x: 0, y: 0 };
@@ -95,12 +93,10 @@ export class MoleculeHelperService {
     return {
       id: molecule.id,
       title: molecule.title,
-      atoms: atomIdsToUnWrap.map((atomId) => {
-        return MoleculeHelperService.unWrapAtom(atoms[atomId]);
-      }),
-      bonds: Object.keys(bonds).map((bondId) => {
-        return MoleculeHelperService.unWrapBond(bonds[bondId], atomIdsToUnWrap);
-      }),
+      atoms: atomIdsToUnWrap.map((atomId) => MoleculeHelperService.unWrapAtom(atoms[atomId])),
+      bonds: Object.keys(bonds).map((bondId) =>
+        MoleculeHelperService.unWrapBond(bonds[bondId], atomIdsToUnWrap)
+      ),
     };
   }
 

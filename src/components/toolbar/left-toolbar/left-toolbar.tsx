@@ -56,6 +56,6 @@ export const TOOLBAR_LEFT_CONFIG = [
   },
 ];
 
-export const LeftToolBar = () => {
-  return <GenericToolBar data={TOOLBAR_LEFT_CONFIG} orientation={ToolBarOrientation.left} />;
-};
+export const LeftToolBar = () => (
+  <GenericToolBar data={TOOLBAR_LEFT_CONFIG} orientation={ToolBarOrientation.left} />
+);

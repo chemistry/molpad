@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { StoreState } from '../declarations/store.js';
-import { Actions } from '../actions/index.js';
+import { type StoreState } from '../declarations/store.js';
+import { type Actions } from '../actions/index.js';
 import { rootReducer, defaultState } from '../reducers/index.js';
 
 type MolpadStore = StoreState & {

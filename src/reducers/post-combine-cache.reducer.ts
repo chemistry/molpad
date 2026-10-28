@@ -1,14 +1,14 @@
 import { Molecule, MoleculeDataFormat } from '@chemistry/molecule';
 import {
   CLEAR_ALL,
-  JMolBondsClassification,
+  type JMolBondsClassification,
   LOAD_MOLECULE,
   MOUSE_DOWN,
   MOUSE_LEAVE,
   MOUSE_UP,
   REDO,
-  Reducer,
-  StoreState,
+  type Reducer,
+  type StoreState,
   ToolMode,
   UNDO,
 } from '../declarations/index.js';

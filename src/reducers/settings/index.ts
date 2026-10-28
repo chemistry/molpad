@@ -1,4 +1,8 @@
-import { HIDE_PERIODIC_TABLE, Reducer, UserSettingsState } from '../../declarations/index.js';
+import {
+  HIDE_PERIODIC_TABLE,
+  type Reducer,
+  type UserSettingsState,
+} from '../../declarations/index.js';
 
 export const settingsReducer: Reducer<UserSettingsState> = (state, action) => {
   switch (action.type) {

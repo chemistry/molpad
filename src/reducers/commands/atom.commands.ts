@@ -1,9 +1,9 @@
 import {
-  JMolAtomWrap,
-  JMolWrapModel,
+  type JMolAtomWrap,
+  type JMolWrapModel,
   MOUSE_DOWN,
-  Reducer,
-  StoreState,
+  type Reducer,
+  type StoreState,
 } from '../../declarations/index.js';
 import { HisoryHelperService, ProjectionHelperService } from '../../services/index.js';
 

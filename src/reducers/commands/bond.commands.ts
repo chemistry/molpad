@@ -1,13 +1,13 @@
 import {
-  JMolAtomWrap,
-  JMolBondWrap,
-  JMolWrapModel,
+  type JMolAtomWrap,
+  type JMolBondWrap,
+  type JMolWrapModel,
   MOUSE_DOWN,
   MOUSE_LEAVE,
   MOUSE_MOVE,
   MOUSE_UP,
-  Reducer,
-  StoreState,
+  type Reducer,
+  type StoreState,
 } from '../../declarations/index.js';
 import {
   CameraHelperService,
@@ -175,9 +175,7 @@ function updateBond(state: StoreState) {
     camera: state.data.camera,
     molecule: state.data.molecule,
     multR: 1.5,
-  }).filter((atom) => {
-    return !(atom.id === atom1Id || (cursorData.isAtom2Created && atom.id === atom2Id));
-  });
+  }).filter((atom) => !(atom.id === atom1Id || (cursorData.isAtom2Created && atom.id === atom2Id)));
 
   if (hoveredAtoms.length !== 0) {
     if (cursorData.isAtom2Created) {
@@ -207,9 +205,9 @@ function updateBond(state: StoreState) {
       camera: state.data.camera,
       molecule: state.data.molecule,
       multR: 1.5,
-    }).filter((atom) => {
-      return !(atom.id === atom1Id || (cursorData.isAtom2Created && atom.id === atom2Id));
-    });
+    }).filter(
+      (atom) => !(atom.id === atom1Id || (cursorData.isAtom2Created && atom.id === atom2Id))
+    );
 
     if (cursorData.isAtom2Created) {
       if (proposedAtomHovering.length === 0) {
@@ -299,12 +297,11 @@ function incrementBondDublicates(state: StoreState): StoreState {
   const bondDublicate = Object.keys(bonds)
     .filter((bondId) => bondId !== createdBondId)
     .map((bondId) => bonds[bondId])
-    .find((bond) => {
-      return (
+    .find(
+      (bond) =>
         (bond.atom1 === atom1 && bond.atom2 === atom2) ||
         (bond.atom1 === atom2 && bond.atom2 === atom1)
-      );
-    });
+    );
   if (!bondDublicate) {
     return state;
   }

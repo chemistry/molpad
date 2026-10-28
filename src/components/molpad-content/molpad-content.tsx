@@ -6,11 +6,11 @@ import {
   mouseMoveAction,
   mouseUpAction,
 } from '../../actions/index.js';
-import { JMolAtomWrap, JMolBondWrap } from '../../declarations/index.js';
+import { type JMolAtomWrap, type JMolBondWrap } from '../../declarations/index.js';
 import { useMolpadStore } from '../../store/index.js';
 import './molpad-content.css';
 
-import { CameraHelperService, LineCoords, MolSvgHelper } from '../../services/index.js';
+import { CameraHelperService, type LineCoords, MolSvgHelper } from '../../services/index.js';
 
 export const MolPadContent = () => {
   const svgcontainer = useRef<SVGSVGElement | null>(null);
@@ -43,9 +43,9 @@ export const MolPadContent = () => {
     const atomsCollection = molecule.atoms;
     const atoms = Object.keys(atomsCollection).map((atomId) => atomsCollection[atomId]);
 
-    const atomsposition = atoms.map((atom: JMolAtomWrap) => {
-      return CameraHelperService.project(cameraState, { x: atom.x, y: atom.y });
-    });
+    const atomsposition = atoms.map((atom: JMolAtomWrap) =>
+      CameraHelperService.project(cameraState, { x: atom.x, y: atom.y })
+    );
     const overlaps: { x: number; y: number }[] = [];
     const DUBLICATE_R = 10;
     atomsposition.forEach((pos1, i) => {
@@ -73,13 +73,11 @@ export const MolPadContent = () => {
     if (overlaps.length === 0) {
       return '';
     }
-    return overlaps.map(({ x, y }, index) => {
-      return (
-        <g className="molsvg-overlap" key={index}>
-          <circle cx={x} cy={y} r="5" className="molsvg-overlap" />
-        </g>
-      );
-    });
+    return overlaps.map(({ x, y }, index) => (
+      <g className="molsvg-overlap" key={index}>
+        <circle cx={x} cy={y} r="5" className="molsvg-overlap" />
+      </g>
+    ));
   };
 
   const getAtomsView = () => {
@@ -173,31 +171,29 @@ export const MolPadContent = () => {
     });
 
     const view = linesListCoords.map(
-      ({ linesCoords, bondId }: { linesCoords: LineCoords[]; bondId: string }) => {
-        return (
-          <g
-            className="molsvg-bond"
-            key={bondId}
-            onMouseOver={() => {
-              setBondIdHovered(bondId);
-            }}
-            onMouseOut={() => {
-              setBondIdHovered('');
-            }}
-          >
-            <line
-              {...linesCoords[0]}
-              stroke="#99ff99"
-              strokeWidth="15"
-              strokeLinecap="round"
-              className="molsvg-bond__wrap"
-            />
-            {linesCoords.slice(1).map((lineCoord, index) => {
-              return <line key={index} {...lineCoord} stroke="black" strokeWidth="1" />;
-            })}
-          </g>
-        );
-      }
+      ({ linesCoords, bondId }: { linesCoords: LineCoords[]; bondId: string }) => (
+        <g
+          className="molsvg-bond"
+          key={bondId}
+          onMouseOver={() => {
+            setBondIdHovered(bondId);
+          }}
+          onMouseOut={() => {
+            setBondIdHovered('');
+          }}
+        >
+          <line
+            {...linesCoords[0]}
+            stroke="#99ff99"
+            strokeWidth="15"
+            strokeLinecap="round"
+            className="molsvg-bond__wrap"
+          />
+          {linesCoords.slice(1).map((lineCoord, index) => (
+            <line key={index} {...lineCoord} stroke="black" strokeWidth="1" />
+          ))}
+        </g>
+      )
     );
 
     const hover = linesListCoords.map(
