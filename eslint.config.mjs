@@ -1,6 +1,8 @@
 import tseslint from 'typescript-eslint';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import reactHooks from 'eslint-plugin-react-hooks';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default tseslint.config(
   { ignores: ['dist/', 'node_modules/', 'coverage/', 'showcase/'] },
@@ -49,6 +51,16 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
+    },
+  },
+  { files: ['**/*.tsx'], ...reactHooks.configs.flat.recommended },
+  { files: ['**/*.tsx'], ...jsxA11y.flatConfigs.recommended },
+  {
+    // Clickable div in the toolbar lacks keyboard support; fixing it changes behaviour.
+    files: ['src/widgets/toolbar-item/toolbar-item.tsx'],
+    rules: {
+      'jsx-a11y/click-events-have-key-events': 'warn',
+      'jsx-a11y/no-static-element-interactions': 'warn',
     },
   },
   {
